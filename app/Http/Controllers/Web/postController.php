@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Models\Like;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Reply;
@@ -79,8 +80,6 @@ class postController extends Controller
         return response()->json(['success' => 'Reply deleted successfully']);
     }
 
-
-
     public function createPost()
     {
         return view('dashboard.users.pages.createPost');
@@ -118,6 +117,29 @@ class postController extends Controller
             'tipe_pesan' => 'berhasil',
             'pesan' => 'Produk Telah Berhasil Ditambahkan!'
         ]);
+    }
+
+    public function likePost(Request $request)
+    {
+        $post_id = $request->postLike_id;
+        $user_id = auth()->id();
+
+        $like = Like::where('postLike_id', $post_id)->where('userLike_id', $user_id)->first();
+
+        if ($like) {
+            // If already liked, unlike it
+            $like->delete();
+            $liked = false;
+        } else {
+            // If not liked, like it
+            Like::create([
+                'userLike_id' => $user_id,
+                'postLike_id' => $post_id,
+            ]);
+            $liked = true;
+        }
+
+        return response()->json(['liked' => $liked]);
     }
     
 

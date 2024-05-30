@@ -4,19 +4,17 @@
 <div class="container-fluid mt-4">
     <div class="row gap-5">
         <!-- Post Section -->
-        @foreach ($post as $p)    
+        @foreach ($post as $p)
             <div class="col-md-6">
                 <!-- Example Post -->
                 <div class="post-card card mb-3 border-light" onclick="window.location.href='{{ route('detail_post', $p->id) }}'" style="cursor: pointer;">
                     <div class="card-header d-flex justify-content-between border-light">
                         <div class="d-flex align-items-center">
-                               
                             <img src="{{ $p->user->foto }}" alt="user" class="rounded-circle me-2" style="width:120px; height: 120px;border-radius: 50%; object-fit: cover;">
                             <div>
                                 <strong>{{ $p->user->username }}</strong><br>
                                 <small>{{ \Carbon\Carbon::parse($p->created_at)->diffForHumans() }}</small>
                             </div>
-                           
                         </div>
                         <button class="btn btn-link text-white p-0"><i class="fa-solid fa-bookmark"></i></button>
                     </div>
@@ -31,12 +29,13 @@
                     </div>
                     <div class="d-flex gap-4 px-3">
                         <div class="d-flex justify-content-between gap-2">
-                            <i class="fa-regular fa-heart mt-1"></i>
-                            <p class="mx-auto">1 Likes</p>
+                           
+                            <i class="fa-regular fa-heart mt-1 like-btn {{ $p->isLikedByUser() ? 'liked' : '' }}" data-post-id="{{ $p->id }}" style="cursor: pointer;"></i>
+                            <p class="mx-auto">{{ $p->likes->count() }} Likes</p>
                         </div>
                         <div class="d-flex justify-content-between gap-2">
                             <i class="fa-regular fa-comment mt-1"></i>
-                            <p class="mx-auto">0 Comments</p>
+                            <p class="mx-auto">{{ $p->totalComments }} {{ Str::plural('Comment', $p->totalComments) }}</p>
                         </div>
                     </div>
                 </div>
@@ -81,4 +80,55 @@
     </div>
 </div>
 
+<script>
+    // $(document).ready(function() {
+    //     let button = document.querySelectorAll('.like-btn');
+    //     // if (button.className = 'liked') {
+    //     //     button.classList.add('fa-solid');
+    //     //     button.classList.remove('fa-regular');
+    //     // } else {
+    //     //     button.classList.remove('fa-solid');
+    //     //     button.classList.add('fa-regular');
+    //     // }
+    //     console.log(button);
+    // })
+    
+    document.querySelectorAll('.like-btn').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation();
+            let postId = this.getAttribute('data-post-id');
+            let icon = this;
+
+            fetch('{{ route('like.post') }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ postLike_id: postId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.liked) {
+                    icon.classList.add('fa-solid');
+                    
+                    icon.classList.remove('fa-regular');
+                    icon.classList.add('liked');
+                } else {
+                    icon.classList.add('fa-regular');
+                    icon.classList.remove('liked');
+                    icon.classList.remove('fa-solid');
+                }
+                location.reload();
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+</script>
+
+<style>
+    .like-btn.liked {
+        color: red;
+    }
+</style>
 @endsection

@@ -66,6 +66,7 @@
                                     </div>
                                 @endforeach
                             </div>
+                           
                             @auth
                                 <form action="{{ route('reply', $comment->id) }}" method="POST" class="reply-form d-none mt-2">
                                     @csrf
@@ -79,6 +80,21 @@
             @empty
                 <p class="text-secondary text-center mt-4">Belum Ada Komentar.</p>
             @endforelse
+
+            <div class="text-center">
+                <hr>
+            </div>
+            <div class="d-flex gap-4 py-1">
+                <div class="d-flex justify-content-between gap-2">
+                    <i class="fa-regular fa-heart mt-1 fa-lg like-btn" style="cursor: pointer;"></i>
+                    {{-- <p class="mx-auto">{{ $p->likes->count() }} Likes</p> --}}
+                    <i class="fa-regular fa-comment fa-lg mt-1"></i>
+                    <i class="fa-regular fa-paper-plane fa-lg mt-1"></i>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <i class="fa-regular fa-bookmark fa-lg mt-1"></i>    
+            </div>
 
             @auth
                 <form action="{{ route('comment', $post->id) }}" method="POST" class="d-flex mt-3 mb-3">

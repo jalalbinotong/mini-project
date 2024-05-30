@@ -8,6 +8,7 @@ use App\Http\Controllers\Web\postController;
 use App\Http\Controllers\Web\loginController;
 use App\Http\Controllers\Web\notifController;
 use App\Http\Controllers\Web\followController;
+use App\Http\Controllers\Web\homeController;
 use App\Http\Controllers\Web\profileController;
 use App\Http\Controllers\Web\searchingController;
 
@@ -21,13 +22,8 @@ use App\Http\Controllers\Web\searchingController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('dashboard.home', [
-        'post' => Post::orderBy('created_at', 'desc')->get(),
-        'user' => User::all()
-    ]);
-});
+// view home
+Route::get('/', [homeController::class, 'home'])->name('home');
 
 // login dan register
 Route::get('/register', [loginController::class, 'register'])->name('register');
@@ -58,6 +54,9 @@ Route::delete('/replies/{id}', [postController::class, 'deleteReply'])->name('de
 // create post
 Route::get('/formPost', [postController::class, 'createPost'])->name('create_post');
 Route::post('/done-create', [postController::class, 'doneCreate'])->name('done_create');
+
+// untuk like post
+Route::post('/like-post', [PostController::class, 'likePost'])->name('like.post');
 
 // view notif
 Route::get('/myNotifikasi', [notifController::class, 'notif'])->name('notif');
