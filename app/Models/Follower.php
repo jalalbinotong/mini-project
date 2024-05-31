@@ -11,8 +11,15 @@ class Follower extends Model
 
     protected $guarded = ['id'];
 
-    public function user()
+    // ini fungsi untuk user mengikuti user lain
+    public function follower()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'userFollow_id');
+    }
+
+    // ini fungsi untuk user yang diikuti
+    public function followed()
+    {
+        return $this->belongsTo(User::class, 'id_follow');
     }
 }

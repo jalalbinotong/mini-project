@@ -48,22 +48,22 @@
                 <div class="card-body">
                     <h5 class="card-title">Siapa yang harus diikuti</h5>
                     <ul class="list-unstyled">
-                        <li class="d-flex align-items-center mb-3">
-                            <img src="https://via.placeholder.com/50" alt="user" class="rounded-circle me-2">
-                            <div>
-                                <strong>imronrev</strong><br>
-                                <small>Imron Reviady</small>
-                            </div>
-                            <button class="btn btn-primary btn-sm ms-auto">Follow</button>
-                        </li>
-                        <li class="d-flex align-items-center mb-3">
-                            <img src="https://via.placeholder.com/50" alt="user" class="rounded-circle me-2">
-                            <div>
-                                <strong>reezyx</strong><br>
-                                <small>Rudiantyan Wijaya Pratama</small>
-                            </div>
-                            <button class="btn btn-primary btn-sm ms-auto">Follow</button>
-                        </li>
+                        @forelse ($follow as $f)
+                            <li class="d-flex align-items-center mb-3">
+                                <img src="{{ $f->foto }}" alt="user" class="rounded-circle me-2" style="width: 50px; height: 50px;">
+                                <div>
+                                    <strong>{{ $f->username }}</strong><br>
+                                    <small>{{ $f->name }}</small>
+                                </div>
+                                @auth
+                                    <button class="btn btn-primary btn-sm ms-auto follow-btn" data-user-id="{{ $f->id }}">Follow</button>
+                                @else
+                                    <button class="btn btn-primary btn-sm ms-auto"><a href="{{ route('login') }}" class="text-decoration-none text-white">Follow</a></button>
+                                @endauth
+                            </li>
+                        @empty
+                            <li>Anda telah memfollow semua orang</li>
+                        @endforelse
                     </ul>
                     <hr>
                     <small>
@@ -128,7 +128,6 @@
 
 <script>
     $(document).ready(function() {
-        // Like icon
         $('.like-btn').on('click', function(event) {
             event.stopPropagation();
             let postId = $(this).data('post-id');
@@ -182,6 +181,40 @@
                     } else {
                         icon.removeClass('bookmarked');
                         icon.css('color', '#fff');
+                    }
+                    location.reload();
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.follow-btn').on('click', function(event) {
+            event.preventDefault();
+            let userId = $(this).data('user-id');
+            let button = $(this);
+
+            $.ajax({
+                url: '{{ route('follow.user') }}',
+                type: 'POST',
+                data: JSON.stringify({ id_follow: userId }),
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    if (data.isFollowing) {
+                        button.text('Unfollow').addClass('bg-danger');
+                        button.removeClass('btn-primary').addClass('btn-danger');
+                        
+                    } else {
+                        button.text('Follow').addClass('bg-primary');;
+                        button.removeClass('btn-danger').addClass('btn-primary');
                     }
                     location.reload();
                 },

@@ -34,6 +34,7 @@ Route::get('/logout', [loginController::class, 'logout'])->name('logout');
 
 // view following
 Route::get('/following', [followController::class, 'following'])->name('following');
+Route::post('/follow', [followController::class, 'followUser'])->name('follow.user');
 
 // view profile
 Route::get('/profile', [profileController::class, 'profile'])->name('profile');

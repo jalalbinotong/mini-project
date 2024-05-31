@@ -16,7 +16,14 @@
                         <div class="ms-3">
                             <h3 class="card-title mb-0">{{ $post->user->username }}</h3>
                         </div>
-                        <button class="btn btn-primary btn-sm ms-auto">Follow</button>
+                        @if (auth()->check() && auth()->id() !== $post->user->id)
+                            @php
+                                $isFollowing = auth()->user()->following()->where('id_follow', $post->user->id)->exists();
+                            @endphp
+                            <button class="btn btn-sm ms-auto follow-btn {{ $isFollowing ? 'btn-danger' : 'btn-primary' }}" data-user-id="{{ $post->user->id }}">
+                                {{ $isFollowing ? 'Unfollow' : 'Follow' }}
+                            </button>
+                        @endif
                     </div>
                     <p class="card-text">{{ $post->deskripsi }}</p>
                     <div class="img-container">
@@ -87,13 +94,16 @@
             <div class="d-flex gap-4 py-1">
                 <div class="d-flex justify-content-between gap-2">
                     <i class="fa-solid fa-heart fa-lg mt-1 like-btn {{ $post->isLikedByUser() ? 'liked' : '' }}" data-post-id="{{ $post->id }}" style="cursor: pointer;"></i>
-                    {{-- <p class="mx-auto">{{ $p->likes->count() }} Likes</p> --}}
                     <i class="fa-regular fa-comment fa-lg mt-1"></i>
                     <i class="fa-regular fa-paper-plane fa-lg mt-1"></i>
                 </div>
             </div>
             <div class="d-flex justify-content-end">
                 <i class="fa-solid fa-bookmark fa-lg mt-1 bookmark-btn {{ $post->isBookmarkedByUser() ? 'bookmarked' : '' }}" data-post-id="{{ $post->id }}" style="cursor: pointer;"></i>   
+            </div>
+            <div class="mt-2">
+                <p class="mx-auto">{{ $post->likes->count() }} Likes</p>
+                <small>{{ \Carbon\Carbon::parse($post->created_at)->diffForHumans() }}</small>
             </div>
 
             @auth
@@ -213,6 +223,36 @@
                     } else {
                         icon.removeClass('bookmarked');
                         icon.css('color', '#fff');
+                    }
+                    location.reload();
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+
+        $('.follow-btn').on('click', function(event) {
+            event.preventDefault();
+            let userId = $(this).data('user-id');
+            let button = $(this);
+
+            $.ajax({
+                url: '{{ route('follow.user') }}',
+                type: 'POST',
+                data: JSON.stringify({ id_follow: userId }),
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    if (data.isFollowing) {
+                        button.text('Unfollow').addClass('bg-danger');
+                        button.removeClass('btn-primary').addClass('btn-danger');
+                        
+                    } else {
+                        button.text('Follow').addClass('bg-primary');;
+                        button.removeClass('btn-danger').addClass('btn-primary');
                     }
                     location.reload();
                 },

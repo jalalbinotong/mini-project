@@ -27,7 +27,7 @@
                     <div class="mb-3 row">
                         <label for="bio" class="col-sm-3 col-form-label">Bio</label>
                         <div class="col-sm-9">
-                            <textarea class="form-control text-white" id="bio" name="bio" rows="4" style="background-color:  #000;"></textarea>
+                            <textarea class="form-control text-white" id="bio" name="bio" rows="4"  value="{{ old('bio', $users->bio) }}" style="background-color:  #000;"></textarea>
                         </div>
                     </div>
                     <div class="text-end mb-4">

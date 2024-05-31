@@ -5,7 +5,11 @@
         </div>
         <div class="navbar-nav gap-3">
             <a class="nav-link active" href="/">For you</a>
-            <a class="nav-link active" href="{{ route('following') }}">Following</a>
+            @auth
+                <a class="nav-link active" href="{{ route('following') }}">Following</a>
+            @else
+                <a class="nav-link active" href="{{ route('login') }}">Following</a>
+            @endauth
         </div>
     </div>
 </nav>

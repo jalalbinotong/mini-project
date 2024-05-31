@@ -9,7 +9,7 @@
                 <div>
                     <h3 class="m-0 mb-2">{{ Auth::user()->username }}</h3>
                     <div class="d-flex">
-                        <p class="me-3">0 Posts</p>
+                        <p class="me-3">{{ $post->count() }} Posts</p>
                         <p class="me-3">0 Followers</p>
                         <p>1 Following</p>
                     </div>
