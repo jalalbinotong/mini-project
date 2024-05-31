@@ -16,7 +16,7 @@
                                 <small>{{ \Carbon\Carbon::parse($p->created_at)->diffForHumans() }}</small>
                             </div>
                         </div>
-                        <button class="btn btn-link text-white p-0"><i class="fa-solid fa-bookmark"></i></button>
+                        <i class="fa-solid fa-bookmark fa-lg p-0 mt-5 bookmark-btn {{ $p->isBookmarkedByUser() ? 'bookmarked' : '' }}" data-post-id="{{ $p->id }}" style="cursor: pointer;"></i>
                     </div>
                     <div class="card-body">
                         <p>{{ $p->deskripsi }}</p>
@@ -30,7 +30,7 @@
                     <div class="d-flex gap-4 px-3">
                         <div class="d-flex justify-content-between gap-2">
                            
-                            <i class="fa-regular fa-heart mt-1 like-btn {{ $p->isLikedByUser() ? 'liked' : '' }}" data-post-id="{{ $p->id }}" style="cursor: pointer;"></i>
+                            <i class="fa-solid fa-heart mt-1 like-btn {{ $p->isLikedByUser() ? 'liked' : '' }}" data-post-id="{{ $p->id }}" style="cursor: pointer;"></i>
                             <p class="mx-auto">{{ $p->likes->count() }} Likes</p>
                         </div>
                         <div class="d-flex justify-content-between gap-2">
@@ -80,7 +80,7 @@
     </div>
 </div>
 
-<script>
+{{-- <script>
     // $(document).ready(function() {
     //     let button = document.querySelectorAll('.like-btn');
     //     // if (button.className = 'liked') {
@@ -124,10 +124,81 @@
             .catch(error => console.error('Error:', error));
         });
     });
+</script> --}}
+
+<script>
+    $(document).ready(function() {
+        // Like icon
+        $('.like-btn').on('click', function(event) {
+            event.stopPropagation();
+            let postId = $(this).data('post-id');
+            let icon = $(this);
+
+            $.ajax({
+                url: '{{ route('like.post') }}',
+                type: 'POST',
+                data: JSON.stringify({ postLike_id: postId }),
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    if (data.liked) {
+                        icon.addClass('liked');
+                        icon.css('color', 'red');
+                    } else {
+                        icon.removeClass('liked');
+                        icon.css('color', '#fff');
+                    }
+                    location.reload();
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('.bookmark-btn').on('click', function(event) {
+            event.stopPropagation();
+            let postId = $(this).data('post-id');
+            let icon = $(this);
+
+            $.ajax({
+                url: '{{ route('bookmark.post') }}',
+                type: 'POST',
+                data: JSON.stringify({ postFav_id: postId }),
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    if (data.bookmarked) {
+                        icon.addClass('bookmarked');
+                        icon.css('color', 'red');
+                    } else {
+                        icon.removeClass('bookmarked');
+                        icon.css('color', '#fff');
+                    }
+                    location.reload();
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
 </script>
 
 <style>
     .like-btn.liked {
+        color: red;
+    }
+
+    .bookmark-btn.bookmarked {
         color: red;
     }
 </style>

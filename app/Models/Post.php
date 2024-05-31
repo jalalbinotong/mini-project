@@ -18,7 +18,12 @@ class Post extends Model
 
     public function favorites()
     {
-        return $this->hasMany(Favorite::class);
+        return $this->hasMany(Favorite::class, 'postFav_id');
+    }
+
+    public function isBookmarkedByUser()
+    {
+        return $this->favorites()->where('userFav_id', auth()->id())->exists();
     }
 
     public function comments()

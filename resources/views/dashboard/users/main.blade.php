@@ -23,6 +23,26 @@
 
         @include('dashboard.layout.footer')
     </main>
+    @guest    
+        <div class="bg-info" style="position:fixed; bottom:0; width:100%; height:100px;">
+            <div class="container">
+                <div class="d-flex justify-content-around align-items-center">
+                    <div class="mt-4" style="margin-left: -200px">
+                        <strong class="fs-5 text-white">Jangan ketinggalan berita terbaru</strong>
+                        <p class="text-white">Login, untuk pengalaman terbaru</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-info border bordered">
+                            <a href="{{ route('login') }}" class="text-decoration-none text-white">Login</a>
+                        </button>
+                        <button class="btn btn-light bordered">
+                            <a href="{{ route('register') }}" class="text-decoration-none text-dark">Register</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endguest
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -63,4 +63,4 @@ Route::get('/myNotifikasi', [notifController::class, 'notif'])->name('notif');
 
 // view bookmarks
 Route::get('/myBookmarks', [postController::class, 'bookmark'])->name('bookmark_post');
-
+Route::post('/bookmark', [PostController::class, 'bookmarkPost'])->name('bookmark.post');

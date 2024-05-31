@@ -80,14 +80,6 @@ body {
     border-radius: 10px;
 }
 
-.btn-link {
-    color: #fff;
-    text-decoration: none;
-}
-
-.btn-link:hover {
-    color: #ccc;
-}
 
 .recommendations .card-body {
     padding: 1rem;

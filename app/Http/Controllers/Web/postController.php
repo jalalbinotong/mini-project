@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Reply;
 use App\Models\Comment;
+use App\Models\Favorite;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -145,6 +146,37 @@ class postController extends Controller
 
     public function bookmark()
     {
-        return view('dashboard.users.pages.bookmark');
+        $id = Auth::user()->id;
+        $user = User::all();
+        // $bookmark = Post::whereHas('favorites', function($query) use ($user) {
+        //     $query->where('userFav_id', $user);
+        // })->with('user')->get();
+        $post = Post::all();
+        $bookmark = Favorite::where('userFav_id', $id)->get();
+        // echo($bookmark);
+        return view('dashboard.users.pages.bookmark', compact('user','bookmark', 'post'));
+    }
+
+    public function bookmarkPost(Request $request)
+    {
+        $post_id = $request->input('postFav_id');  // Ambil post_id dari request
+        $user_id = auth()->id();
+
+        $favorite = Favorite::where('postFav_id', $post_id)->where('userFav_id', $user_id)->first();
+
+        if ($favorite) {
+            // If already bookmarked, remove bookmark
+            $favorite->delete();
+            $bookmarked = false;
+        } else {
+            // If not bookmarked, add bookmark
+            Favorite::create([
+                'userFav_id' => $user_id,
+                'postFav_id' => $post_id,
+            ]);
+            $bookmarked = true;
+        }
+
+        return response()->json(['bookmarked' => $bookmarked]);
     }
 }
