@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Follower;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,8 +16,10 @@ class profileController extends Controller
     {
         $user = Auth::user()->id;
         $post = Post::where('user_id', $user)->get();
+        $followers = Follower::where('userFollow_id', $user)->get();
+        $following = Follower::where('id_follow', $user)->get();
         // echo($post);
-        return view('dashboard.users.pages.profile', compact('post'));
+        return view('dashboard.users.pages.profile', compact('post','followers','following'));
     }
     
     public function editProfile()
