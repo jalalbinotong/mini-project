@@ -13,11 +13,11 @@ class Like_comment extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'userLikeComm_id');
     }
 
     public function comment()
     {
-        return $this->belongsTo(Comment::class);
+        return $this->belongsTo(Comment::class, 'commentLike_id');
     }
 }

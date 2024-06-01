@@ -10,6 +10,7 @@ use App\Models\Comment;
 use App\Models\Favorite;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Like_comment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -136,6 +137,29 @@ class postController extends Controller
             Like::create([
                 'userLike_id' => $user_id,
                 'postLike_id' => $post_id,
+            ]);
+            $liked = true;
+        }
+
+        return response()->json(['liked' => $liked]);
+    }
+
+    public function likeComment(Request $request)
+    {
+        $comment_id = $request->commentLike_id;
+        $user_id = auth()->id();
+
+        $like = Like_comment::where('commentLike_id', $comment_id)->where('userLikeComm_id', $user_id)->first();
+
+        if ($like) {
+            // If already liked, unlike it
+            $like->delete();
+            $liked = false;
+        } else {
+            // If not liked, like it
+            Like_comment::create([
+                'userLikeComm_id' => $user_id,
+                'commentLike_id' => $comment_id,
             ]);
             $liked = true;
         }

@@ -56,8 +56,9 @@ Route::delete('/replies/{id}', [postController::class, 'deleteReply'])->name('de
 Route::get('/formPost', [postController::class, 'createPost'])->name('create_post');
 Route::post('/done-create', [postController::class, 'doneCreate'])->name('done_create');
 
-// untuk like post
+// untuk like post dan like comment
 Route::post('/like-post', [PostController::class, 'likePost'])->name('like.post');
+Route::post('/like-comments', [PostController::class, 'likeComment'])->name('like.comment');
 
 // view notif
 Route::get('/myNotifikasi', [notifController::class, 'notif'])->name('notif');

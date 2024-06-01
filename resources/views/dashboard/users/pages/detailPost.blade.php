@@ -42,8 +42,8 @@
                             <p class="mb-1"><strong>{{ $comment->user->username }}</strong></p>
                             <p class="mb-1">{{ $comment->comment }}</p>
                             <div class="d-flex align-items-center">
-                                <i class="far fa-heart me-2"></i>
-                                <span>0 Likes</span>
+                                <i class="fas fa-heart me-2 likeComment-btn {{ $comment->isLikedCommentByUser() ? 'liked' : '' }}" data-post-id="{{ $comment->id }}" style="cursor: pointer;"></i>
+                                <span>{{ $comment->like_comments->count() }} Likes</span>
                                 @auth
                                     @if(auth()->id() == $comment->user->id)
                                         <span class="ms-3 comment-actions text-danger delete-comment" data-comment-id="{{ $comment->id }}" style="cursor: pointer">Hapus</span>
@@ -261,6 +261,35 @@
                 }
             });
         });
+
+        $('.likeComment-btn').on('click', function(event) {
+            event.stopPropagation();
+            let postId = $(this).data('post-id');
+            let icon = $(this);
+
+            $.ajax({
+                url: '{{ route('like.comment') }}',
+                type: 'POST',
+                data: JSON.stringify({ commentLike_id: postId }),
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    if (data.liked) {
+                        icon.addClass('liked');
+                        icon.css('color', 'red');
+                    } else {
+                        icon.removeClass('liked');
+                        icon.css('color', '#fff');
+                    }
+                    location.reload();
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
     });
 </script>
 
@@ -270,6 +299,10 @@
     }
 
     .bookmark-btn.bookmarked {
+        color: red;
+    }
+
+    .likeComment-btn.liked {
         color: red;
     }
 </style>
