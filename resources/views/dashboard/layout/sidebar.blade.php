@@ -3,7 +3,12 @@
         @auth
             <div class="d-flex justify-content-between border-light mb-3">
                 <div class="d-flex align-items-center">
-                    <img src="{{ Auth::user()->foto }}" id="profile-img" alt="user" class="rounded-circle me-2" style="width:80px; height: 90px;border-radius: 50%; object-fit: cover; cursor:pointer">
+                    
+                    @if (Auth::user()->foto)
+                        <img src="{{ Auth::user()->foto }}" id="profile-img" alt="user" class="rounded-circle me-2" style="width:80px; height: 90px;border-radius: 50%; object-fit: cover; cursor:pointer">
+                    @else
+                        <img src="https://via.placeholder.com/80" alt="Profile Image" class="rounded-circle me-2" style="object-fit: cover; cursor: pointer;">
+                    @endif
                     <div>
                         <strong id="profile-username" style="cursor: pointer">{{ Auth::user()->username }}</strong><br>
                         <small id="profile-name" style="cursor: pointer">{{ Auth::user()->name }}</small>

@@ -33,7 +33,11 @@
                                 @if (request()->has('search'))
                                     @forelse ($following as $f)
                                         <li class="d-flex align-items-center mb-3">
-                                            <img src="{{ asset($f->foto) }}" alt="user"  class="rounded-circle me-2" style="width: 80px; height: 80px; object-fit: cover">
+                                            @if (asset($f->foto))
+                                                <img src="{{ asset($f->foto) }}" alt="user"  class="rounded-circle me-2" style="width: 80px; height: 80px; object-fit: cover">
+                                            @else
+                                                <img src="https://via.placeholder.com/80" alt="Profile Image" id="profileImg" class="rounded-circle me-2" style="object-fit: cover; cursor: pointer;">
+                                            @endif
                                             <div>
                                                 <strong>{{ $f->username }}</strong><br>
                                                 <small>{{ $f->name }}</small>
@@ -53,7 +57,11 @@
                                 @else
                                     @forelse ($following as $f)
                                         <li class="d-flex align-items-center mb-3">
-                                            <img src="{{ asset($f->foto) }}" alt="user"  class="rounded-circle me-2" style="width: 80px; height: 80px; object-fit: cover">
+                                            @if (asset($f->foto))
+                                                <img src="{{ asset($f->foto) }}" alt="user"  class="rounded-circle me-2" style="width: 80px; height: 80px; object-fit: cover">
+                                            @else
+                                                <img src="https://via.placeholder.com/80" alt="Profile Image" id="profileImg" class="rounded-circle me-2" style="object-fit: cover; cursor: pointer;">
+                                            @endif
                                             <div>
                                                 <strong>{{ $f->username }}</strong><br>
                                                 <small>{{ $f->name }}</small>

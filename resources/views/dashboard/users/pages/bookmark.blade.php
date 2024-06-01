@@ -10,7 +10,12 @@
                 <div class="post-card card mb-3 border-light" style="width: 200px">
                     <div class="card-header d-flex justify-content-between border-light">
                         <div class="d-flex align-items-center">
-                            <img src="{{ $book->post->user->foto }}" alt="user" class="rounded-circle me-2" style="width: 50px; height: 50px;">
+                            @if ($book->post->user->foto)
+                                <img src="{{ $book->post->user->foto }}" alt="user" class="rounded-circle me-2" style="width: 50px; height: 50px;">
+                            @else
+                                <img src="https://via.placeholder.com/50" alt="Profile Image" id="profileImg" class="rounded-circle me-2" style="object-fit: cover; cursor: pointer;">
+                            @endif
+                            
                             <div>
                                 <strong>{{ $book->post->user->username }}</strong><br>
                                 <small>{{ \Carbon\Carbon::parse($book->created_at)->diffForHumans() }}</small>

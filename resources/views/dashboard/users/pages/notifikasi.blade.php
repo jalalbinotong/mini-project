@@ -21,7 +21,12 @@
                 @forelse ($like as $f)    
                     <li class="d-flex align-items-center mb-3">
                         {{-- <img src="https://via.placeholder.com/50" alt="user" class="rounded-circle me-2"> --}}
-                        <img src="{{ $f->post->user->foto }}" alt="user" class="rounded-circle me-2" style="width: 50px; height: 50px;">
+                        @if ($f->post->user->foto)
+                            <img src="{{ $f->post->user->foto }}" alt="user" class="rounded-circle me-2" style="width: 50px; height: 50px;">
+                        @else
+                            <img src="https://via.placeholder.com/50" alt="Profile Image" class="rounded-circle me-2" style="object-fit: cover; cursor: pointer;">
+                        @endif
+                        
                         <div class="gap-5">
                             <strong>{{ $f->post->user->username }}</strong>
                             <small>menyukai postingan anda</small>
@@ -31,32 +36,7 @@
                 @empty
                     <p>gak ada Notifikasi</p>
                 @endforelse   
-                @forelse ($comment as $f)    
-                    <li class="d-flex align-items-center mb-3">
-                        {{-- <img src="https://via.placeholder.com/50" alt="user" class="rounded-circle me-2"> --}}
-                        <img src="{{ $f->post->user->foto }}" alt="user" class="rounded-circle me-2" style="width: 50px; height: 50px;">
-                        <div class="gap-5">
-                            <strong>{{ $f->post->user->username }}</strong>
-                            <small>Komentar postingan anda</small>
-                            {{-- <img src="https://via.placeholder.com/50" alt="user" class="rounded-circle me-2 text-end"> --}}
-                        </div>
-                    </li>
-                @empty
-                    <p>gak ada Notifikasi</p>
-                @endforelse
-                @forelse ($like as $f)    
-                    <li class="d-flex align-items-center mb-3">
-                        {{-- <img src="https://via.placeholder.com/50" alt="user" class="rounded-circle me-2"> --}}
-                        <img src="{{ $f->post->user->foto }}" alt="user" class="rounded-circle me-2" style="width: 50px; height: 50px;">
-                        <div class="gap-5">
-                            <strong>{{ $f->post->user->username }}</strong>
-                            <small>mulai mengikuti anda</small>
-                            {{-- <img src="https://via.placeholder.com/50" alt="user" class="rounded-circle me-2 text-end"> --}}
-                        </div>
-                    </li>
-                @empty
-                    <p>gak ada Notifikasi</p>
-                @endforelse   
+                  
             </ul>
         </div>
     </div>

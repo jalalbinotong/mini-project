@@ -19,7 +19,7 @@ class notifController extends Controller
         $post = Post::all();
         $user = User::all();
         $follow = Follower::where('userFollow_id', $user_id)->get();
-        $like = Like::where('userLike_id', $user_id)->get();
+        $like = Like::where('userLike_id', 2)->get();
         $comment = Comment::where('userComment_id', $user_id)->get();
 
         return view('dashboard.users.pages.notifikasi', compact('follow', 'like', 'post', 'user', 'comment'));

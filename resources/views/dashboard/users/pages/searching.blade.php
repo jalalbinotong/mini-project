@@ -19,7 +19,11 @@
                             @if(request()->has('search'))
                                 @forelse ($users as $u)
                                     <div class="d-flex mt-3 gap-3">
-                                        <img src="{{ $u->foto }}" alt="user"  class="rounded-circle me-2" style="width: 80px; height: 80px; object-fit: cover">
+                                        @if ($u->foto)
+                                            <img src="{{ $u->foto }}" alt="user"  class="rounded-circle me-2" style="width: 80px; height: 80px; object-fit: cover">
+                                        @else
+                                            <img src="https://via.placeholder.com/80" alt="Profile Image" id="profileImg" class="rounded-circle me-2" style="object-fit: cover; cursor: pointer;">
+                                        @endif
                                         <div class="gap-3 justify-content-between">
                                             <strong>{{ $u->username }}</strong><br>
                                             <small>{{ $u->name }}</small>
@@ -51,7 +55,11 @@
                         <ul class="list-unstyled">
                             @forelse ($recommendations as $f)
                                 <li class="d-flex align-items-center mb-3">
-                                    <img src="{{ $f->foto }}" alt="user" class="rounded-circle me-2" style="width: 50px; height: 50px;">
+                                    @if ($f->foto)
+                                        <img src="{{ $f->foto }}" alt="user" class="rounded-circle me-2" style="width: 50px; height: 50px;">
+                                    @else
+                                        <img src="https://via.placeholder.com/50" alt="Profile Image" id="profileImg" class="rounded-circle me-2" style="object-fit: cover; cursor: pointer;">
+                                    @endif
                                     <div>
                                         <strong>{{ $f->username }}</strong><br>
                                         <small>{{ $f->name }}</small>

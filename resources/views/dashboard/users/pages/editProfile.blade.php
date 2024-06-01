@@ -8,7 +8,11 @@
                 @method('PUT')
                 @csrf
                 <div class="text-center mb-4">
-                    <img src="{{ $users->foto }}" alt="Profile Image" class="mb-3 border" name="foto" id="profileImg" style="width:120px; height:120px; border-radius: 50%; object-fit: cover; cursor: pointer;">
+                    @if ($users->foto)
+                        <img src="{{ $users->foto }}" alt="Profile Image" class="mb-3 border" name="foto" id="profileImg" style="width:120px; height:120px; border-radius: 50%; object-fit: cover; cursor: pointer;">
+                    @else
+                        <img src="https://via.placeholder.com/120" alt="Profile Image" id="profileImg" class="rounded-circle me-2" style="object-fit: cover; cursor: pointer;">
+                    @endif
                     <input type="file" id="profileImageUpload" name="foto" accept="image/*" style="display: none;">
                     <h3>Edit Profile</h3>
                 </div>

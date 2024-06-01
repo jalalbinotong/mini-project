@@ -12,7 +12,12 @@
             <div class="card text-white" style="background-color: #000;">
                 <div class="card-body">
                     <div class="d-flex align-items-center mb-3">
-                        <img src="{{ $post->user->foto }}" alt="User Avatar" class="rounded-circle" style="width:120px; height: 120px;border-radius: 50%; object-fit: cover;">
+                        @if ($post->user->foto)
+                            <img src="{{ $post->user->foto }}" alt="User Avatar" class="rounded-circle" style="width:120px; height: 120px;border-radius: 50%; object-fit: cover;">
+                        @else
+                            <img src="https://via.placeholder.com/120" alt="Profile Image" id="profileImg" class="rounded-circle me-2" style="object-fit: cover; cursor: pointer;">
+                        @endif
+                        
                         <div class="ms-3">
                             <h3 class="card-title mb-0">{{ $post->user->username }}</h3>
                         </div>

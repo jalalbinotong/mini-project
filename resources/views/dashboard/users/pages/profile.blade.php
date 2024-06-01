@@ -5,7 +5,12 @@
     <div class="row justify-content-center">
         <div class="col-12 col-md-10">
             <div class="d-flex align-items-center mb-4">
-                <img src="{{ Auth::user()->foto }}" alt="Profile Image" class="me-4" style="width:120px; height: 120px;border-radius: 50%; object-fit: cover;">
+                @if (Auth::user()->foto)
+                    <img src="{{ Auth::user()->foto }}" alt="Profile Image" class="me-4" style="width:120px; height: 120px;border-radius: 50%; object-fit: cover;">
+                @else
+                    <img src="https://via.placeholder.com/120" alt="Profile Image" id="profileImg" class="rounded-circle me-2" style="object-fit: cover; cursor: pointer;">
+                @endif
+                
                 <div>
                     <h3 class="m-0 mb-2">{{ Auth::user()->username }}</h3>
                     <div class="d-flex">

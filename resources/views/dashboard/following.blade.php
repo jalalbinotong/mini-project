@@ -7,10 +7,15 @@
         @foreach ($posts as $post)    
             <div class="col-md-6">
                 <!-- Example Post -->
-                <div class="post-card card mb-3 border-light">
+                <div class="post-card card mb-3 border-light" onclick="window.location.href='{{ route('detail_post', $post->id) }}'" style="cursor: pointer;">
                     <div class="card-header d-flex justify-content-between border-light">
                         <div class="d-flex align-items-center">
-                            <img src="{{ $post->user->foto }}" alt="user" class="rounded-circle me-2" style="width:120px; height: 120px;border-radius: 50%; object-fit: cover;">
+                            @if ($post->user->foto)
+                                <img src="{{ $post->user->foto }}" alt="user" class="rounded-circle me-2" style="width:120px; height: 120px;border-radius: 50%; object-fit: cover;">
+                            @else
+                                <img src="https://via.placeholder.com/120" alt="Profile Image" class="rounded-circle me-2" style="object-fit: cover; cursor: pointer;">
+                            @endif
+                            
                             <div>
                                 <strong>{{ $post->user->username }}</strong><br>
                                 <small>{{ \Carbon\Carbon::parse($post->created_at)->diffForHumans() }}</small>
@@ -49,7 +54,12 @@
                     <ul class="list-unstyled">
                         @forelse ($recommendations as $r)
                             <li class="d-flex align-items-center mb-3">
-                                <img src="{{ $r->foto }}" alt="user" class="rounded-circle me-2" style="width: 50px; height: 50px;">
+                                @if ($r->foto)
+                                    <img src="{{ $r->foto }}" alt="user" class="rounded-circle me-2" style="width: 50px; height: 50px;">
+                                @else
+                                    <img src="https://via.placeholder.com/50" alt="Profile Image" class="rounded-circle me-2" style="object-fit: cover; cursor: pointer;">
+                                @endif
+                                
                                 <div>
                                     <strong>{{ $r->username }}</strong><br>
                                     <small>{{ $r->name }}</small>

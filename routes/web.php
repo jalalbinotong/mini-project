@@ -32,39 +32,45 @@ Route::get('/login', [loginController::class, 'login'])->name('login');
 Route::post('/login-user', [loginController::class, 'doneLogin'])->name('done_login');
 Route::get('/logout', [loginController::class, 'logout'])->name('logout');
 
-// view following
-Route::get('/following', [followController::class, 'following'])->name('following');
-Route::post('/follow', [followController::class, 'followUser'])->name('follow.user');
-
-// view profile
-Route::get('/profile', [profileController::class, 'profile'])->name('profile');
-Route::get('/EditProfile', [profileController::class, 'editProfile'])->name('edit_profile');
-Route::put('/profile/update', [profileController::class, 'update'])->name('update_profile');
-Route::get('/followings/{id}', [profileController::class, 'seeFollowings'])->name('see_followings');
-Route::get('/follower/{id}', [profileController::class, 'seeFollower'])->name('see_followers');
-
 //view searching
 Route::get('/searching', [searchingController::class, 'searching'])->name('searching');
 
-// view post
 // detail post
 Route::get('/seePost/{id}', [postController::class, 'detailPost'])->name('detail_post');
-Route::post('/comment/{id}', [postController::class, 'storeComment'])->name('comment');
-Route::delete('/comments/{id}', [postController::class, 'deleteComment'])->name('delete_comment');
-Route::post('/reply/{id}', [postController::class, 'storeReply'])->name('reply');
-Route::delete('/replies/{id}', [postController::class, 'deleteReply'])->name('delete_reply');
 
-// create post
-Route::get('/formPost', [postController::class, 'createPost'])->name('create_post');
-Route::post('/done-create', [postController::class, 'doneCreate'])->name('done_create');
+// view semua di view profile
+Route::get('/profile', [profileController::class, 'profile'])->name('profile')->middleware('authenticate');
+Route::get('/EditProfile', [profileController::class, 'editProfile'])->name('edit_profile')->middleware('authenticate');
+Route::put('/profile/update', [profileController::class, 'update'])->name('update_profile')->middleware('authenticate');
+Route::get('/followings/{id}', [profileController::class, 'seeFollowings'])->name('see_followings')->middleware('authenticate');
+Route::get('/follower/{id}', [profileController::class, 'seeFollower'])->name('see_followers')->middleware('authenticate');
 
-// untuk like post dan like comment
-Route::post('/like-post', [PostController::class, 'likePost'])->name('like.post');
-Route::post('/like-comments', [PostController::class, 'likeComment'])->name('like.comment');
+Route::prefix('dashboard')->middleware('authenticate')->group(function()
+{
+    // view following
+    Route::get('/following', [followController::class, 'following'])->name('following');
+    
+    //untuk melakukan follow
+    Route::post('/follow', [followController::class, 'followUser'])->name('follow.user');
 
-// view notif
-Route::get('/myNotifikasi', [notifController::class, 'notif'])->name('notif');
+    // komen reply di detail post
+    Route::post('/comment/{id}', [postController::class, 'storeComment'])->name('comment');
+    Route::delete('/comments/{id}', [postController::class, 'deleteComment'])->name('delete_comment');
+    Route::post('/reply/{id}', [postController::class, 'storeReply'])->name('reply');
+    Route::delete('/replies/{id}', [postController::class, 'deleteReply'])->name('delete_reply');
 
-// view bookmarks
-Route::get('/myBookmarks', [postController::class, 'bookmark'])->name('bookmark_post');
-Route::post('/bookmark', [PostController::class, 'bookmarkPost'])->name('bookmark.post');
+    // buat postingan
+    Route::get('/formPost', [postController::class, 'createPost'])->name('create_post');
+    Route::post('/done-create', [postController::class, 'doneCreate'])->name('done_create');
+
+    // untuk like post dan like comment
+    Route::post('/like-post', [PostController::class, 'likePost'])->name('like.post');
+    Route::post('/like-comments', [PostController::class, 'likeComment'])->name('like.comment');
+
+    // view notif
+    Route::get('/myNotifikasi', [notifController::class, 'notif'])->name('notif');
+
+    // view bookmarks
+    Route::get('/myBookmarks', [postController::class, 'bookmark'])->name('bookmark_post');
+    Route::post('/bookmark', [PostController::class, 'bookmarkPost'])->name('bookmark.post');
+});

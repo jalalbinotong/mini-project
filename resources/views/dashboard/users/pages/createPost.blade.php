@@ -6,7 +6,11 @@
         <div class="post-card card mb-3 border-light">
             <div class="card-header d-flex justify-content-between border-light">
                 <div class="d-flex align-items-center">
-                    <img src="https://via.placeholder.com/50" alt="user" class="rounded-circle me-2">
+                    @if (Auth::user()->foto)
+                        <img src="{{ Auth::user()->foto }}" alt="user" class="rounded-circle me-2" style="width:120px; height: 120px;border-radius: 50%; object-fit: cover;">
+                    @else
+                        <img src="https://via.placeholder.com/50" alt="Profile Image" class="rounded-circle me-2" style="object-fit: cover; cursor: pointer;">
+                    @endif
                     <div>
                         <strong>{{ Auth::user()->username }}</strong>
                     </div>
