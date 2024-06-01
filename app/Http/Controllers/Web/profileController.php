@@ -16,8 +16,8 @@ class profileController extends Controller
     {
         $user = Auth::user()->id;
         $post = Post::where('user_id', $user)->get();
-        $followers = Follower::where('userFollow_id', $user)->get();
-        $following = Follower::where('id_follow', $user)->get();
+        $following = Follower::where('userFollow_id', $user)->get();
+        $followers = Follower::where('id_follow', $user)->get();
         // echo($post);
         return view('dashboard.users.pages.profile', compact('post','followers','following'));
     }
@@ -25,7 +25,7 @@ class profileController extends Controller
     public function seeFollowings(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        $followings = Follower::where('id_follow', $user->id)->pluck('userFollow_id');
+        $followings = Follower::where('userFollow_id', $user->id)->pluck('id_follow');
 
         $query = User::whereIn('id', $followings);
 
@@ -42,7 +42,7 @@ class profileController extends Controller
     public function seeFollower(Request $request,$id)
     {
         $user = User::findOrFail($id);
-        $follower = Follower::where('userFollow_id', $user->id)->pluck('id_follow');
+        $follower = Follower::where('id_follow', $user->id)->pluck('userFollow_id');
 
         $query = User::whereIn('id', $follower);
 
