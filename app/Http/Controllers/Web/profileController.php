@@ -21,6 +21,40 @@ class profileController extends Controller
         // echo($post);
         return view('dashboard.users.pages.profile', compact('post','followers','following'));
     }
+
+    public function seeFollowings(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $followings = Follower::where('id_follow', $user->id)->pluck('userFollow_id');
+
+        $query = User::whereIn('id', $followings);
+
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where('username', 'like', '%' . $search . '%');
+        }
+
+        $following = $query->get();
+
+        return view('dashboard.users.pages.followings', compact('user', 'following'));
+    }
+
+    public function seeFollower(Request $request,$id)
+    {
+        $user = User::findOrFail($id);
+        $follower = Follower::where('userFollow_id', $user->id)->pluck('id_follow');
+
+        $query = User::whereIn('id', $follower);
+
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where('username', 'like', '%' . $search . '%');
+        }
+
+        $followers = $query->get();
+
+        return view('dashboard.users.pages.followers', compact('user', 'followers'));
+    }
     
     public function editProfile()
     {

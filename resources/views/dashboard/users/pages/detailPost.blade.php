@@ -60,8 +60,6 @@
                                                 <p class="mb-1"><strong>{{ $reply->user->username }}</strong></p>
                                                 <p class="mb-1">{{ $reply->comment }}</p>
                                                 <div class="d-flex align-items-center">
-                                                    <i class="far fa-heart me-2"></i>
-                                                    <span>0 Likes</span>
                                                     @auth
                                                         @if(auth()->id() == $reply->user->id)
                                                             <span class="ms-3 comment-actions text-danger delete-reply" data-reply-id="{{ $reply->id }}" style="cursor: pointer">Hapus</span>

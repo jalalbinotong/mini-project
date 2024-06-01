@@ -10,8 +10,8 @@
                     <h3 class="m-0 mb-2">{{ Auth::user()->username }}</h3>
                     <div class="d-flex">
                         <p class="me-3">{{ $post->count() }} Posts</p>
-                        <p class="me-3">{{ $following->count() }} Followers</p>
-                        <p>{{ $followers->count() }} Following</p>
+                        <p class="me-3"><a href="{{ route('see_followers', Auth::user()->id) }}" class="text-decoration-none text-white">{{ $followers->count() }} Followers</a></p>
+                        <p class="me-3"><a href="{{ route('see_followings', Auth::user()->id) }}" class="text-decoration-none text-white">{{ $following->count() }} Following</a></p>
                     </div>
                     <p>{{ Auth::user()->name }}</p>
                 </div>

@@ -40,6 +40,8 @@ Route::post('/follow', [followController::class, 'followUser'])->name('follow.us
 Route::get('/profile', [profileController::class, 'profile'])->name('profile');
 Route::get('/EditProfile', [profileController::class, 'editProfile'])->name('edit_profile');
 Route::put('/profile/update', [profileController::class, 'update'])->name('update_profile');
+Route::get('/followings/{id}', [profileController::class, 'seeFollowings'])->name('see_followings');
+Route::get('/follower/{id}', [profileController::class, 'seeFollower'])->name('see_followers');
 
 //view searching
 Route::get('/searching', [searchingController::class, 'searching'])->name('searching');
