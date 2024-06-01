@@ -39,7 +39,8 @@ class loginController extends Controller
         ]);
 
         if ($user) {
-            return redirect()->route('login');
+            return redirect()->route('login')
+                ->with('success', 'Create success, you can login right now!');
         } else {
             return redirect()->route('register')
                 ->with('error', 'Failed to create user');
@@ -76,7 +77,7 @@ class loginController extends Controller
             return redirect('/');
         } else {
             return redirect()->route('login')
-                ->with('error', 'Login failed email or password is incorrect');
+                ->with('error', 'Login failed username or password is incorrect');
         }
     }
 

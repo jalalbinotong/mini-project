@@ -60,7 +60,11 @@
         <div class="sidebar-item d-flex">
             <div class="d-flex justify-content-between gap-3">
                 <i class="fa-solid fa-arrow-right-from-bracket mt-1"></i>
-                <a href="{{ route('logout') }}" class="mx-auto">Logout</a>
+                <form action="{{ route('logout') }}" method="POST" class="mx-auto">
+                    @csrf
+                    <button type="submit" class="mx-auto" style="background-color: black; border:none"><a href="{{ route('logout') }}" class="text-decoration-none text-white">Logout</a></button>  
+                </form>
+                {{-- <a href="{{ route('logout') }}" class="mx-auto">Logout</a> --}}
             </div>
         </div>
     @else

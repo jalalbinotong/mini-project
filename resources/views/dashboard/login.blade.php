@@ -38,6 +38,13 @@
                 <div>
                     <div class="col-md-6 d-flex align-items-center justify-content-center">
                         <div class="w-100" style="max-width: 500px;">
+                            @if (session('error'))
+                                <div class="alert alert-danger">{{ session('error') }}</div>
+                            @endif
+                            <!-- success message -->
+                            @if (session('success'))
+                                <div class="alert alert-success">{{ session('success') }}</div>
+                            @endif
                             <h1 class="px-5 mb-4 text-white">Login</h1>
                             <form action="{{ route('done_login') }}" method="POST">
                                 @csrf

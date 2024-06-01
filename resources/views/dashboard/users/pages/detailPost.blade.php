@@ -38,6 +38,13 @@
             </div>
         </div>
         <div class="col-4 mt-5">
+            @if (session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
+            <!-- success message -->
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
             <h5>Komentar</h5>
             @forelse ($post->comments as $comment)
                 <div class="comment mb-3" id="comment-{{ $comment->id }}">
@@ -80,7 +87,10 @@
                             @auth
                                 <form action="{{ route('reply', $comment->id) }}" method="POST" class="reply-form d-none mt-2">
                                     @csrf
-                                    <input type="text" name="comment" class="form-control text-white " placeholder="Tambahkan balasan" style="background-color: #000;">
+                                    <input type="text" name="comment" id="comment" class="form-control text-white " placeholder="Tambahkan balasan" style="background-color: #000;">
+                                    @error('comment')
+                                        <div class="text-danger mt-2">{{ $message }}</div>
+                                    @enderror
                                     <button type="submit" class="btn btn-outline-success btn-send mt-2" >Kirim</button>
                                 </form>
                             @endauth
@@ -112,7 +122,10 @@
             @auth
                 <form action="{{ route('comment', $post->id) }}" method="POST" class="d-flex mt-3 mb-3">
                     @csrf
-                    <input class="form-control me-2 text-white" style="background-color: #000;" type="text" name="comment" placeholder="Tambahkan komentar">
+                    <input class="form-control me-2 text-white" style="background-color: #000;" type="text" id="comment" name="comment" placeholder="Tambahkan komentar">
+                    @error('comment')
+                        <div class="text-danger mt-2">{{ $message }}</div>
+                    @enderror
                     <button class="btn btn-outline-success btn-send" type="submit">Kirim</button>
                 </form>
             @else

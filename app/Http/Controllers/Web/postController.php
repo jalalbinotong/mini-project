@@ -35,7 +35,7 @@ class postController extends Controller
         $comment->comment = $request->comment;
         $comment->save();
 
-        return back();
+        return back()->with('success', 'Created comment has been Success');
     }
 
     public function storeReply(Request $request, $commentId)
@@ -53,7 +53,7 @@ class postController extends Controller
         $reply->comment = $request->comment;
         $reply->save();
 
-        return back();
+        return back()->with('success', 'Created reply has been Success');;
     }
 
     public function deleteComment($id)

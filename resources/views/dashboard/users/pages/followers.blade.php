@@ -31,7 +31,7 @@
                         <h5 class="card-title">List All Followers</h5>
                         <ul class="list-unstyled">
                             @if (request()->has('search'))
-                                @forelse (asset($f->foto))
+                                @forelse ($followers as $f)
                                     <li class="d-flex align-items-center mb-3">
                                         @if (asset($f->foto))
                                             <img src="{{ asset($f->foto) }}" alt="user"  class="rounded-circle me-2" style="width: 80px; height: 80px; object-fit: cover">
