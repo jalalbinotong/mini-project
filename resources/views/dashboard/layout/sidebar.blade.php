@@ -62,7 +62,7 @@
                 <i class="fa-solid fa-arrow-right-from-bracket mt-1"></i>
                 <form action="{{ route('logout') }}" method="POST" class="mx-auto">
                     @csrf
-                    <button type="submit" class="mx-auto" style="background-color: black; border:none"><a href="{{ route('logout') }}" class="text-decoration-none text-white">Logout</a></button>  
+                    <button type="submit" class="mx-auto" style="background-color: black; border:none"><a href="{{ route('logout') }}" class="text-decoration-none text-white"  onclick="return confirm('Apakah Anda Yakin Ingin Logout?');">Logout</a></button>  
                 </form>
                 {{-- <a href="{{ route('logout') }}" class="mx-auto">Logout</a> --}}
             </div>

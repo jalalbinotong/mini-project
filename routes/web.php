@@ -44,8 +44,9 @@ Route::get('/EditProfile', [profileController::class, 'editProfile'])->name('edi
 Route::put('/profile/update', [profileController::class, 'update'])->name('update_profile')->middleware('authenticate');
 Route::get('/followings/{id}', [profileController::class, 'seeFollowings'])->name('see_followings')->middleware('authenticate');
 Route::get('/follower/{id}', [profileController::class, 'seeFollower'])->name('see_followers')->middleware('authenticate');
+Route::delete('/comments/{id}', [postController::class, 'deleteComment'])->name('delete_comment');
 
-Route::prefix('dashboard')->middleware('authenticate')->group(function()
+Route::middleware(['authenticate'])->group(function()
 {
     // view following
     Route::get('/following', [followController::class, 'following'])->name('following');
@@ -55,7 +56,6 @@ Route::prefix('dashboard')->middleware('authenticate')->group(function()
 
     // komen reply di detail post
     Route::post('/comment/{id}', [postController::class, 'storeComment'])->name('comment');
-    Route::delete('/comments/{id}', [postController::class, 'deleteComment'])->name('delete_comment');
     Route::post('/reply/{id}', [postController::class, 'storeReply'])->name('reply');
     Route::delete('/replies/{id}', [postController::class, 'deleteReply'])->name('delete_reply');
 
