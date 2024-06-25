@@ -19,9 +19,9 @@
             <div class="card-body">
                 <form action="{{ route('done_create') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <input type="text" class="form-control text-white mb-3" id="deskripsi" name="deskripsi" value="{{ old('deskripsi') }}" style="background-color:  #000;" placeholder="Deskripsi Postingan">
+                    <textarea class="form-control text-white mb-3" id="deskripsi" name="deskripsi" value="{{ old('deskripsi') }}" style="background-color:  #000;" placeholder="Tambahkan Deskripsi Postingan" rows="3"></textarea>
                     <div class="img-container">
-                        <img src="https://via.placeholder.com/500x300" alt="Profile Image" class="mb-3 img-fluid" id="createImg" style="object-fit: cover; cursor: pointer;">
+                        <img src="https://via.placeholder.com/600x300" alt="Profile Image" class="mb-3 img-fluid" id="createImg" style="object-fit: cover; cursor: pointer;">
                         <input type="file" id="createImageUpload" name="gambar" accept="image/*" style="display: none;">
                     </div>
                     <div class="text-center">
