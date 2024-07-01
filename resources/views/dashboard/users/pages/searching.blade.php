@@ -4,7 +4,7 @@
     <div class="container mt-5" style="max-width: 1200px; margin-bottom: 180px">
         <div class="d-flex justify-content-center">
             <form action="{{ route('searching') }}" method="GET" class="d-flex justify-content-between gap-1 w-full">
-                <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" style="background-color: #000; color: #fff;" name="search">
+                <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" style="background-color: #000; color: #fff;" name="search" value="{{ request('search') }}">
                 <button style="background-color: #000; border: none" class="btn ms-auto">
                     <i class="fa-solid fa-magnifying-glass fa-xl mt-3 text-white" style="cursor: pointer;"></i>
                 </button>
@@ -32,7 +32,7 @@
                                             @php
                                                 $isFollowing = auth()->user()->following()->where('id_follow', $u->id)->exists();
                                             @endphp
-                                            <button class="btn btn-sm ms-auto follow-btn {{ $isFollowing ? 'btn-danger' : 'btn-primary' }}" data-user-id="{{ $u->id }}">
+                                            <button class="btn btn-sm ms-auto follow-btn {{ $isFollowing ? 'text-danger' : 'text-primary' }}" data-user-id="{{ $u->id }}" style="background-color: #000;">
                                                 {{ $isFollowing ? 'Unfollow' : 'Follow' }}
                                             </button>
                                         @endif
